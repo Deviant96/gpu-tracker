@@ -2,7 +2,7 @@
 //Log pesan tertentu pada suatu bagian kode dengan cara menyimpan di database
 function log_this(string $message, string $category) {
     date_default_timezone_set('Asia/Jakarta');
-    $datetime = date('Y-m-d h:i:s');
+    $datetime = date('Y-m-d H:i:s');
     global $conn;
     if($conn) {
         try {
