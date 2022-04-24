@@ -335,7 +335,7 @@ try {
                         // },
                         beforeSend:function(){
                                 //alert("Bisa");
-                                $(".js_gpu_result").html('<tr><td colspan=8 style="text-align:center"><img class="loading-image" src="./img/loader-dark.svg" alt=""></td></tr>');
+                                $(".js_gpu_result").html('<tr><td colspan=8 style="text-align:center"><img class="loading-image" src="./img/Loader-dark.svg" alt=""></td></tr>');
 
                                 $(".js_gpu_result .loading-image").toggle();
                         },
