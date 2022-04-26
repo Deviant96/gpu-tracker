@@ -153,19 +153,12 @@ try {
                     <tr>
                         <th scope="col" rowspan=2>Nama Toko</th>
                         <th scope="col" rowspan=2>Nama Item</th>
+                        <th scope="col" rowspan=2>Harga (Stok)</th>
                         <th scope="col" rowspan=2>Harga Lama</th>
-                        <th scope="col" rowspan=2>Stok Lama</th>
-                        <th scope="col" rowspan=2>Harga Terbaru</th>
-                        <th scope="col" rowspan=2>Stok Terbaru</th>
-                        <th scope="col" colspan=2>Update Terakhir</th>
-                    </tr>
-                    <tr>
-                        <th>Waktu</th>
-                        <th>Tanggal (tgl/bln/thn)</th>
                     </tr>
                 </thead>
                 <tbody class="js_gpu_result">
-                    <tr><td colspan=8 style="text-align: center;">Kosong. Silahkan pilih item.</td></tr>
+                    <tr><td colspan=4 style="text-align: center;">Kosong. Silahkan pilih item.</td></tr>
                 </tbody>
             </table>
             
@@ -335,7 +328,7 @@ try {
                         // },
                         beforeSend:function(){
                                 //alert("Bisa");
-                                $(".js_gpu_result").html('<tr><td colspan=8 style="text-align:center"><img class="loading-image" src="./img/Loader-dark.svg" alt=""></td></tr>');
+                                $(".js_gpu_result").html('<tr><td colspan=4 style="text-align:center"><img class="loading-image" src="./img/Loader-dark.svg" alt=""></td></tr>');
 
                                 $(".js_gpu_result .loading-image").toggle();
                         },

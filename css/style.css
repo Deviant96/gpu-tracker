@@ -163,7 +163,7 @@ table {
   table th,
   table td {
     padding: .625em;
-    text-align: center;
+    text-align: left;
   }
   
   table th {
@@ -172,15 +172,14 @@ table {
     text-transform: uppercase;
 
     background-color: #333;
-                color: #fff;
+    color: #fff;
 
-                border: none;
-                padding: 10px;
-                text-shadow: 1px 1px 1px #fff;
-                white-space: pre-line;
+    border: none;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+    white-space: pre-line;
 
-                font-weight: 400;
-                text-align: left;
+    font-weight: 400;
   }
 
   table tbody td {
