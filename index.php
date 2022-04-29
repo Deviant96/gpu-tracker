@@ -174,10 +174,10 @@ try {
         
         <section id="gpu_log_history" class="container">
             <div class="gpu_log_history-header">
-                GPU Prices Log 
-                <small>(Top newest)</small>
+                Daftar perubahan harga 
+                <small>(Atas terbaru)</small>
                 <button type="button" class="gpu-log-view-more js-gpu-log-view-more">
-                    <span>View more..</span>
+                    <span>Lebih banyak..</span>
                     <img class="loading-image" src="./img/loader.svg" alt="">
                 </button>
             </div>
@@ -225,10 +225,10 @@ try {
 
         <footer class="container">
             <div class="footer-content">
-                By <a href="https://miretazam.com">Miretazam</a>
+                Oleh <a href="https://miretazam.com">Miretazam</a>
             </div>
             <div class="footer-resources">
-                Using <a href="https://systemuicons.com" target="_blank">System UIcons</a>
+                Icon dari <a href="https://systemuicons.com" target="_blank">System UIcons</a>
             </div>
         </footer>
         
