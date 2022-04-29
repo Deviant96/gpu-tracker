@@ -43,8 +43,7 @@ try {
                 background-color: #EEE;
                 height: 500px;
                 width: 100%;
-                margin: 0 auto;
-                margin-bottom: 50px;
+                margin: 20px auto;
             }
             @media(max-width:1024px){
                 #gpu_log_history {
@@ -52,14 +51,17 @@ try {
                 }
             }
             #gpu_log_history .gpu_log_history-header {
-                background: linear-gradient(to bottom, #76b900, #5e9400);
-                height: 45px;
-                font-size: 20px;
-                text-align: center;
-                line-height: 40px;
-                color: white;
-                text-shadow: 1px 1px 10px #EEE;
+                background-color: #333;
                 -webkit-user-select: none;
+                padding: 10px;
+
+                text-shadow: 1px 1px 1px #fff;
+                font-weight: 400;
+                font-size: .85em;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                text-align: center;
+                color: #ffffff;
             }
             #gpu_log_history .gpu_log_history-body {
                 background-color: #FFF;
@@ -77,17 +79,21 @@ try {
                 color: rgb(106, 112, 115);
                 line-height: 1.2;
                 word-wrap: break-word;
-                border-bottom: 1px solid rgb(230, 230, 230);
+                padding: 2px 0;
+                /* border-bottom: 1px solid rgb(230, 230, 230);
 
-                margin-top: 5px;
+                margin-top: 5px; */
+            }
+            #gpu_log_history .gpu_log_history-body .post:nth-child(2n){
+                background:#ccc
             }
             #gpu_log_history button.gpu-log-view-more {
                 background: none;
-                border: none;
+                border: 1px solid #ffffff;
                 text-decoration: none;
-                font-size: 16px;
                 color: #fff;
                 cursor: pointer;
+                padding: 5px;
             }
             #gpu_log_history button.gpu-log-view-more:hover {
                 color: #ccc;
@@ -97,6 +103,8 @@ try {
                 margin: auto;
                 animation: rotation 1s infinite linear;
                 display: none;
+                max-width: 0.9em;
+                max-height: 0.9em;
             }
             @keyframes rotation {
                 100% {transform: rotate(360deg);}
@@ -155,7 +163,7 @@ try {
                         <th scope="col" rowspan=2>Nama Item</th>
                         <th scope="col" rowspan=2>Harga (Stok)</th>
                         <th scope="col" rowspan=2>Harga Lama</th>
-                    </tr>
+                    </tr>   
                 </thead>
                 <tbody class="js_gpu_result">
                     <tr><td colspan=4 style="text-align: center;">Kosong. Silahkan pilih item.</td></tr>
@@ -166,14 +174,12 @@ try {
         
         <section id="gpu_log_history" class="container">
             <div class="gpu_log_history-header">
-                <h2>
-                    GPU Prices Log 
-                    <small>(Top newest)</small>
-                    <button type="button" class="gpu-log-view-more js-gpu-log-view-more">
-                        <span>View more..</span>
-                        <img class="loading-image" src="./img/loader.svg" alt="">
-                    </button>
-                </h2>
+                GPU Prices Log 
+                <small>(Top newest)</small>
+                <button type="button" class="gpu-log-view-more js-gpu-log-view-more">
+                    <span>View more..</span>
+                    <img class="loading-image" src="./img/loader.svg" alt="">
+                </button>
             </div>
             <div class="gpu_log_history-body">
                 <?php
