@@ -109,18 +109,79 @@ try {
             @keyframes rotation {
                 100% {transform: rotate(360deg);}
             }
+
+            #nav_menu {
+            display: flex;
+            flex-direction: column;
+            }
+            #nav_menu input
+            {
+            display: flex;
+            width: 40px;
+            height: 32px;
+            position: absolute;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 2;
+            }
+
+            #nav_menu span
+            {
+            display: flex;
+            width: 29px;
+            height: 2px;
+            margin-bottom: 5px;
+            position: relative;
+            background: #000000;
+            border-radius: 3px;
+            z-index: 1;
+            transform-origin: 5px 0px;
+            transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                        background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                        opacity 0.55s ease;
+            }
+            #nav_menu span:first-child
+            {
+            transform-origin: 0% 0%;
+            }
+
+            #nav_menu span:nth-last-child(2)
+            {
+            transform-origin: 0% 100%;
+            }
+
+            #nav_menu input:checked ~ span:nth-last-child(3)
+            {
+            opacity: 1;
+            transform: rotate(45deg) translate(-2px, -1px);
+            background: #36383F;
+            }
+            #nav_menu input:checked ~ span
+            {
+            transform: rotate(-45deg) translate(0, -3px);
+            }
+            #nav_menu input:checked ~ span:nth-last-child(2)
+            {
+            opacity: 0;
+            transform: rotate(0deg) scale(0.2, 0.2);
+            }
+
+            
         </style>
     </head>
 
     <body>
         <header class="container">
-            <h1>Dashboard Data GPU</h1>
             <div class="off-section">
-                <button class="btn btn-primary js-show-list" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    Menu
-                </button>
-
-                <div class="offcanvas offcanvas-start container" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <h1>Dashboard Data GPU</h1>
+                <div id="nav_menu" aria-hidden="true" aria-controls="offcanvasExample">
+                    <input type="checkbox"  class="js-show-list"/>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                    
+                <div class="offcanvas offcanvas-start container" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasExampleLabel">Daftar Item</h5>
                         <span class="close-button">
@@ -150,7 +211,7 @@ try {
                         </div>
                     </div>
                 </div>
-                <div class="backdrop"></div>
+                <div class="backdrop" aria-hidden="true"></div>
             </div>
         </header>
 
@@ -354,7 +415,7 @@ try {
         </script>
 
         <script>
-            $('button.js-show-list').click(function(){
+            $('.js-show-list').click(function(){
                 $('.offcanvas').toggleClass('active');
                 $('.off-section .backdrop').toggleClass('show');
             });
@@ -362,14 +423,17 @@ try {
             $('.backdrop').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
+                $('.js-show-list input[type=checkbox]').prop('checked', false);
             });
             $('.close-button').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
+                $('.js-show-list input[type=checkbox]').prop('checked', false);
             });
             $('.js-select-gpu').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
+                $('.js-show-list input[type=checkbox]').prop('checked', false);
             });
         </script>
     </body>

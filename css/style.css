@@ -9,6 +9,10 @@ body {
   font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+header {
+  padding: 20px 10px;
+}
+
 h1 {
   font-style: normal;
   font-weight: 700;
@@ -43,7 +47,7 @@ a {
     visibility: hidden;
 }
 .offcanvas.active {
-    height: auto;
+    height: 100%;
     opacity: 1;
     visibility: visible;
     z-index: 505;
