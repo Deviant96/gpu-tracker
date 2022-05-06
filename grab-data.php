@@ -11,6 +11,7 @@ $time_start = microtime(true);
 
 //Ambil daftar URL dari database
 try {
+    print_r('Selecting data from database.. simple html dom');
   $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
   $stmt->execute();
   $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);

@@ -1,17 +1,16 @@
 <?php
 include "db.php";
+include "function_log.php";
 error_reporting(E_ALL ^ E_WARNING);
 date_default_timezone_set('Asia/Jakarta');
-//$accumulate = 0;
-
-require_once 'simple_html_dom.php';
 
 //place this before any script you want to calculate time
 $time_start = microtime(true); 
 
 //Ambil daftar URL dari database
 try {
-  $stmt = $conn->prepare("SELECT id, url FROM url_list");
+    print_r('Selecting data from database.. xpath');
+  $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
   $stmt->execute();
   $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
   
@@ -24,10 +23,11 @@ function get_gpu_info(string $targeturl, int $gpu_id)
     
 
     $results = array();
-    //$html = new simple_html_dom();
-    //$html->load_file($targeturl);
+    
     $html = new DOMDocument();
+    libxml_use_internal_errors(true); // Supress warning regarding parsing HTML5 element in XML
     $html->loadHTMLFile($targeturl);
+    libxml_use_internal_errors(false); // Revert back the warning
     $xpath = new DOMXPath($html);
 
     
@@ -35,14 +35,14 @@ function get_gpu_info(string $targeturl, int $gpu_id)
     //$div_class = $price = $stock = "";
     
     //$div_class = $html->find("#main-pdp-container", 0);
-        $out_of_stock = $xpath->query("/html/body/div[1]/div/div[2]/div[2]/div[3]/div/div[1]/div[1]/div/input[@disabled='']"); 
+        $out_of_stock = $xpath->query('//div[@class="css-1a29oke"]//input[contains(@class,"css-1igct5v-unf-quantity-editor__input") and (@disabled)]')->item(0);
         
         $price = $xpath->query("//div[contains(@class,'price')]")->item(0)->nodeValue; 
         $price_int = intval(preg_replace('/[^\d\,]+/', '', $price));
         if($out_of_stock) {
             $stock = 0;
         } else {
-            $stock = $xpath->query("//div[contains(@class,'css-1a29oke')]/p/b"); 
+            $stock = $xpath->evaluate('//div[@class="css-1a29oke"]/p/b')->item(0)->nodeValue;
         }
         // Clear $html variable to avoid memory leak
         //$html->clear();
@@ -59,7 +59,7 @@ function get_gpu_info(string $targeturl, int $gpu_id)
 }
 
 $gpu_data = array_map('get_gpu_info', array_values($url_list), array_keys($url_list));
-
+var_dump($gpu_data);
 try {
     $time = date("H:i:s");
     $date = date("Y-m-d");
@@ -90,11 +90,12 @@ try {
         
         if($count) { 
             // Cek data GPU di table gpu_data
-            $stmt4 = $conn->prepare("SELECT old_price, old_price_int, old_stock, old_datetime, latest_price, latest_price_int, stock, latest_update_time, latest_update_date FROM gpu_data WHERE gpu_id = :gpu_id");
+            $stmt4 = $conn->prepare("SELECT title, old_price, old_price_int, old_stock, old_datetime, latest_price, latest_price_int, stock, latest_update_time, latest_update_date FROM gpu_data WHERE gpu_id = :gpu_id");
             $stmt4->bindParam(':gpu_id', $new_gpu_id);
             $stmt4->execute();
             $old_data = $stmt4->fetch(PDO::FETCH_ASSOC);
             
+            $gpu_title = $old_data['title'];
             $old_price = $old_data['old_price'];
             $old_price_int = $old_data['old_price_int'];
             $old_stock = $old_data['old_stock'];
@@ -106,14 +107,10 @@ try {
             $latest_time = $old_data['latest_update_time'];
             $combined_latest_date_time = date('Y-m-d H:i:s', strtotime("$latest_date $latest_time"));
             
-            //print_r($insert_price_int);
-            //print_r($old_price_int);
             // Jika harga dari record yang sedang dimasukkan sama dengan harga data GPU terbaru..
             if($new_price_int == $latest_price_int) { 
                 echo "Harga sama";
-                //$stmt3->bindParam(':latest_price', ':latest_price');
-                //$stmt3->bindParam(':latest_price_int', ':latest_price_int');
-                //$stmt3->bindParam(':latest_datetime', ':latest_datetime');
+                
                 $stmt3 = $conn->prepare("UPDATE gpu_data SET 
                 latest_update_time = :latest_update_time, 
                 latest_update_date = :latest_update_date 
@@ -145,14 +142,23 @@ try {
                 $stmt3->bindParam(':stock', $new_stock);
                 
                 print_r("Old price updated");
+
+                if(!empty($latest_price_int) || !empty($old_price_int)) {
+                    $diff = round(abs((($new_price_int - $latest_price_int) / ($new_price_int)) * 100), 2);
+                    if($new_price_int > $latest_price_int) { 
+                        $progress_harga = "Harga naik (".$diff."%) : ".$gpu_title;
+                        log_this($progress_harga, "gpu-progress");
+                    } else if($new_price_int < $latest_price_int) {
+                        $progress_harga = "Harga turun (".$diff."%) : ".$gpu_title;
+                        log_this($progress_harga, "gpu-progress");
+                    }
+                }
+                
             }
             
             $stmt3->bindParam(':latest_update_time', $time);
             $stmt3->bindParam(':latest_update_date', $date);
             $stmt3->bindParam(':gpu_id', $new_gpu_id);
-            
-            //$stmt3->bindParam(':price', $insert_price);
-            //$stmt3->bindParam(':price_int', $insert_price_int);
             
             $stmt3->execute();
             
