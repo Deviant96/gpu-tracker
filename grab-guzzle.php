@@ -67,7 +67,6 @@ function handleSuccess(Response $response, $index)
         if($out_of_stock) {
             $stock = 0;
         } else {
-            var_dump($xpath->evaluate('//div[@class="css-uk1tha"]/p/b')->item(0)->nodeValue);
             $stock = $xpath->evaluate('//div[@class="css-uk1tha"]/p/b')->item(0)->nodeValue;
         }
 
