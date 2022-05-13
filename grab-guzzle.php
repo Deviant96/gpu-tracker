@@ -62,12 +62,12 @@ function handleSuccess(Response $response, $index)
         $price = $xpath->evaluate("//div[@class='css-aqsd8m']//div[@class='price']")->item(0)->nodeValue; 
         $price_int = intval(preg_replace('/[^\d\,]+/', '', $price));
                  
-        $out_of_stock = $xpath->evaluate('//div[@class="css-uk1tha"]//input[contains(@class,"css-1igct5v-unf-quantity-editor__input") and (@disabled)]')->item(0);
+        $out_of_stock = $xpath->evaluate('//div[@class="css-1a29oke"]//input[contains(@class,"css-1igct5v-unf-quantity-editor__input") and (@disabled)]')->item(0);
         
         if($out_of_stock) {
             $stock = 0;
         } else {
-            $stock = $xpath->evaluate('//div[@class="css-uk1tha"]/p/b')->item(0)->nodeValue;
+            $stock = $xpath->evaluate('//div[@class="css-1a29oke"]/p/b')->item(0)->nodeValue;
         }
 
         $result = array(
