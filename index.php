@@ -423,17 +423,17 @@ try {
             $('.backdrop').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
-                $('.js-show-list input[type=checkbox]').prop('checked', false);
+                $('input[type=checkbox].js-show-list').prop('checked', false);
             });
             $('.close-button').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
-                $('.js-show-list input[type=checkbox]').prop('checked', false);
+                $('input[type=checkbox].js-show-list').prop('checked', false);
             });
             $('.js-select-gpu').click(function(){
                 $('.offcanvas').removeClass('active');
                 $('.off-section .backdrop').removeClass('show');
-                $('.js-show-list input[type=checkbox]').prop('checked', false);
+                $('input[type=checkbox].js-show-list').prop('checked', false);
             });
         </script>
     </body>
