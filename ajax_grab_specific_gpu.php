@@ -18,7 +18,7 @@ try {
         $html .= "<td data-label='Nama Item'><a href=" . $row['the_url'] . " target='_blank'><strong>" . $row['title'] . "</strong></a></td>";
         
         $html .= "<td data-label='Harga'><strong>";
-        $html .= $row['latest_price'] . "</strong> <sup>(" . $row['stock'] . ")</sup>  <span style='font-size:10px;'>" . $row['latest_update_time'] . " " . date('d-m-Y', strtotime($row['latest_update_date'])) . "</span></td>";
+        $html .= $row['latest_price'] . "</strong> <sup>(" . $row['stock'] . ")</sup>  <span style='font-size:10px;'>" . $row['latest_update_time'] . " " . date('d-m-Y', strtotime($row['latest_update_date'] ?? '1970-01-01')) . "</span></td>";
         
         if($row['old_price_int']==0) {
             $html .= "<td data-label='Harga Lama'>N/A</td>";
