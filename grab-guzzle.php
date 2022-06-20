@@ -60,7 +60,7 @@ function handleSuccess(Response $response, $index)
     
     if (!empty($doc)) {
         $price = $xpath->evaluate("//div[@class='css-aqsd8m']//div[@class='price']")->item(0)->nodeValue; 
-        $price_int = intval(preg_replace('/[^\d\,]+/', '', $price));
+        $price_int = intval(preg_replace('/[^\d\,]+/', '', ($price ?? '0')));
                  
         $out_of_stock = $xpath->evaluate('//div[@class="css-1a29oke"]//input[contains(@class,"css-1igct5v-unf-quantity-editor__input") and (@disabled)]')->item(0);
         
