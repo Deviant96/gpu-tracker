@@ -61,13 +61,18 @@ function handleSuccess(Response $response, $index)
     if (!empty($doc)) {
         $price = $xpath->evaluate("//div[@class='css-1m72sg']//div[@class='price']")->item(0)->nodeValue; 
         $price_int = intval(preg_replace('/[^\d\,]+/', '', ($price ?? '0')));
-                 
-        $out_of_stock = $xpath->evaluate('//div[@class="css-uk1tha"]//input[contains(@class,"css-197wjuk-unf-quantity-editor__input") and (@disabled)]')->item(0);
+        
+        // If given variant interface 
+        // Use .css-1ygofwa > p > b
+
+        $out_of_stock = $xpath->evaluate('//input[contains(@class,"css-197wjuk-unf-quantity-editor__input") and (@disabled)]')->item(0);
         
         if($out_of_stock) {
             $stock = 0;
         } else {
-            $stock = $xpath->evaluate('//div[@class="css-uk1tha"]/p/b')->item(0)->nodeValue;
+            //$stock = $xpath->evaluate('//div[@class="css-qfdk7t"]/p/b')->item(0)->nodeValue;
+            // Trying to get max value from the input element as stock
+            $stock = $xpath->evaluate('//input[contains(@class,"css-197wjuk-unf-quantity-editor__input") and (@aria-valuemax)]/@aria-valuemax')->item(0)->nodeValue;
         }
 
         $result = array(
