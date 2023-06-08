@@ -47,6 +47,41 @@ $requests = function($url_list) {
     }
 };
 
+/**
+ * Fetch price only integer (example: 1000000 or 99)
+ */
+function getPriceInt($xpath):int {
+    $priceElement = $xpath->evaluate("number(//meta[@property='product:price:amount']/@content)");
+    return $priceElement ? (int) $priceElement : 0;
+}
+
+/**
+ * Fetch price with the currency (example: Rp1.000.000 or $99)
+ */
+function getPriceHtml($xpath):string {
+    $priceElement = $xpath->evaluate("//div[@class='css-chstwd']//div[@class='price']")->item(0);
+    return $priceElement ? (string) $priceElement->nodeValue : NULL;
+}
+
+/**
+ * Check if the quantity input is disabled, mean it's out of stock
+ */
+function isOutOfStock($xpath): bool {
+    $quantityInput = $xpath->evaluate('//input[contains(@class, "css-3a6js2-unf-quantity-editor__input") and @disabled]')->item(0);
+    return (bool) $quantityInput;
+}
+
+/**
+ * Fetch stock number
+ */
+function getStock($xpath): int {
+    if(isOutOfStock($xpath)) return 0;
+    $stockNode = $xpath->query('//*[@id="pdpFloatingActions"]/div[1]/p/b')->item(0);
+    if (!$stockNode) return 0;
+    $stock = abs((int) filter_var($stockNode->nodeValue, FILTER_SANITIZE_NUMBER_INT));
+    return (int) $stock;
+}
+
 // define are callbacks:
 // This will be called for every successful response
 function handleSuccess(Response $response, $index)
@@ -59,21 +94,9 @@ function handleSuccess(Response $response, $index)
     $xpath = new DOMXPath($doc);
     
     if (!empty($doc)) {
-        $price = $xpath->evaluate("//div[@class='css-1m72sg']//div[@class='price']")->item(0)->nodeValue; 
-        $price_int = intval(preg_replace('/[^\d\,]+/', '', ($price ?? '0')));
-        
-        // If given variant interface 
-        // Use .css-1ygofwa > p > b
-
-        $out_of_stock = $xpath->evaluate('//input[contains(@class,"css-197wjuk-unf-quantity-editor__input") and (@disabled)]')->item(0);
-        
-        if($out_of_stock) {
-            $stock = 0;
-        } else {
-            //$stock = $xpath->evaluate('//div[@class="css-qfdk7t"]/p/b')->item(0)->nodeValue;
-            // Trying to get max value from the input element as stock
-            $stock = $xpath->evaluate('//input[contains(@class,"css-197wjuk-unf-quantity-editor__input") and (@aria-valuemax)]/@aria-valuemax')->item(0)->nodeValue;
-        }
+        $price = getPriceHtml($xpath);
+        $price_int = getPriceInt($xpath);
+        $stock = getStock($xpath);
 
         $result = array(
             'GPUID' => $index,
