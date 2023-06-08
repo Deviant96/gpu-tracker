@@ -32,12 +32,12 @@ $gpu_data = [];
 // Ambil daftar URL dari database
 try {
     print_r('Selecting data from database.. guzzle + xpath');
-  $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
-  $stmt->execute();
-  $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
+    $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
+    $stmt->execute();
+    $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
   
 } catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
+    error_log("Connection failed: " . $e->getMessage());
 }
 
 ///////////////////////////////////////////////////////////////
