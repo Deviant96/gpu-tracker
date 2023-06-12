@@ -31,7 +31,7 @@ $gpu_data = [];
 
 // Ambil daftar URL dari database
 try {
-    print_r('Selecting data from database.. guzzle + xpath');
+    print_r('Fetching from database using guzzle + xpath');
     $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
     $stmt->execute();
     $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
