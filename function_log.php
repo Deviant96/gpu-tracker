@@ -23,4 +23,35 @@ function log_this(string $message, string $category) {
         file_put_contents('./log/message_log.log', $log, FILE_APPEND);
     }
 }
+
+
+function insertNewProductFromUrl($product_id, $product_url) {
+    $sql = "INSERT INTO urls (product_id, product_url, created_at) 
+        VALUES (:insert_product_id, :insert_product_url, :insert_created_at)";
+    $datetime = date('Y-m-d H:i:s');
+
+    $params = array(
+        'insert_product_id' => $product_id,
+        'insert_product_url' => $product_url,
+        'insert_created_at' => $datetime
+    );
+
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+
+    $id = $conn->lastInsertId();
+    
+}
+
+
+
+
+
+
+
+
 ?>
