@@ -41,11 +41,6 @@ try {
 }
 
 ///////////////////////////////////////////////////////////////
-$requests = function($url_list) {
-    foreach($url_list as $key => $url) {
-        yield $key => new Request('GET', $url);
-    }
-};
 
 /**
  * Fetch price only integer (example: 1000000 or 99)
@@ -112,15 +107,25 @@ function handleSuccess(Response $response, $index)
 
 function handleFailure($reason, $index)
 {
-    printf("failed: %s\n", $reason);
+    printf("failed 0002: %s\n", $reason);
 }
 
-$pool = new Pool($client, $requests($url_list), [
-    'concurrency' => 20,
-    'fulfilled' => 'handleSuccess',
-    'rejected' => 'handleFailure',
-]);
-$pool->promise()->wait();
+try {
+    $requests = function ($url_list) use ($client) {
+        foreach ($url_list as $key => $url) {
+            yield $key => $client->requestAsync('GET', $url);
+        }
+    };
+
+    $pool = new Pool($client, $requests($url_list), [
+        'concurrency' => 20,
+        'fulfilled' => 'handleSuccess',
+        'rejected' => 'handleFailure',
+    ]);
+    $pool->promise()->wait();
+} catch (GuzzleHttp\Exception\ConnectException $e) {
+    printf("failed 0001: %s\n", $e->getMessage()); 
+}
 ///////////////////////////////////////////////////////////////
 
 try {
