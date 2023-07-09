@@ -31,7 +31,7 @@ $gpu_data = [];
 
 // Ambil daftar URL dari database
 try {
-    echo "Fetching from database using guzzle + xpath\n\n";
+    echo "Fetching from database using guzzle + xpath<br><br>";
     $stmt = $conn->prepare("SELECT id, the_url FROM url_list");
     $stmt->execute();
     $url_list = $stmt->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
@@ -107,7 +107,7 @@ function handleSuccess(Response $response, $index)
 
 function handleFailure($reason, $index)
 {
-    printf("failed 0002: %s\n\n", $reason);
+    printf("failed 0002: %s<br><br>", $reason);
 }
 
 try {
@@ -124,7 +124,7 @@ try {
     ]);
     $pool->promise()->wait();
 } catch (GuzzleHttp\Exception\ConnectException $e) {
-    printf("failed 0001: %s\n\n", $e->getMessage()); 
+    printf("failed 0001: %s<br><br>", $e->getMessage()); 
 }
 ///////////////////////////////////////////////////////////////
 
