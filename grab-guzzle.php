@@ -111,9 +111,9 @@ function handleFailure($reason, $index)
 }
 
 try {
-    $requests = function ($url_list) use ($client) {
-        foreach ($url_list as $key => $url) {
-            yield $key => $client->requestAsync('GET', $url);
+    $requests = function($url_list) {
+        foreach($url_list as $key => $url) {
+            yield $key => new Request('GET', $url);
         }
     };
 
