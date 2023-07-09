@@ -16,10 +16,10 @@ use GuzzleHttp\Psr7\Request;
 
 $client = new GuzzleHttp\Client([
     'connect_timeout' => 5,
-    'timeout'         => 2.00,
+    'timeout'         => 10.00,
     'headers' => [
     'Host'=> 'tokopedia.com',
-    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
+    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36',
     'Accept'=> '*/*',
     'Accept-Language'=> 'en-US,en;q=0.5',
     'Accept-Encoding'=> 'gzip, deflate, br',
